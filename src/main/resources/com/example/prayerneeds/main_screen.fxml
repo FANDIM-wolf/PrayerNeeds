@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="20.0" styleClass="main-screen" fx:controller="com.example.prayerneeds.MainScreenController">
+    <Text text="Молитвенные нужды" styleClass="title"/>
+    <Button text="Записать нужду" onAction="#handleRecordNeed" styleClass="standart_button"/>
+    <Button text="Просмотр нужд" onAction="#handleViewNeeds" styleClass="standart_button"/>
+    <Button text="Члены церкви" onAction="#handleViewMembers" styleClass="standart_button"/>
+</VBox>
+
+
+

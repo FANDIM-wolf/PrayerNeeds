@@ -1,0 +1,70 @@
+.main-screen {
+    -fx-padding: 20;
+    -fx-background-color: #f0f0f0;
+    -fx-font-family: "Arial", sans-serif;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #333333;
+}
+
+.standart_button {
+    -fx-padding: 10 20;
+    -fx-background-color: #000000;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+}
+
+.standart_button:hover {
+    -fx-background-color: #000000;
+}
+
+.members-list {
+    -fx-padding: 20;
+    -fx-background-color: #f0f0f0;
+    -fx-font-family: "Arial", sans-serif;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #333333;
+}
+
+.standart_red {
+    -fx-padding: 10 20;
+    -fx-background-color: #FF0000;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+}
+
+.standart_red:hover {
+    -fx-background-color: #FF0000;
+}
+.standart_green {
+    -fx-padding: 10 20;
+    -fx-background-color: #00CC00;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+}
+
+.standart_green:hover {
+    -fx-background-color: #00CC00;
+}
+button {
+    padding: 40px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.HBox_member_list_buttons{
+    -fx-padding-right: 20px; /* Увеличивает расстояние до правого края */
+    -fx-spacing: 20px; /* Расстояние между кнопками */
+}
+
