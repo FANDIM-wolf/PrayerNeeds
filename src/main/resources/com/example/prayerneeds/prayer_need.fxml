@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.prayerneeds.PrayerNeedController"
+      prefHeight="400.0" prefWidth="600.0" spacing="10" alignment="CENTER">
+    <stylesheets>
+        <URL value="@/com/example/prayerneeds/styles.css" />
+    </stylesheets>
+    <VBox alignment="CENTER">
+        <Label text="Просмотр нужд" style="-fx-font-size: 20; -fx-font-family: Arial, sans-serif;"/>
+    </VBox>
+    <VBox fx:id="needsContainer" spacing="10" VBox.vgrow="ALWAYS">
+    </VBox>
+</VBox>

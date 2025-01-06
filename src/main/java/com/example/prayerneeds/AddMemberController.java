@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.Random;
 
 public class AddMemberController {
 
@@ -40,11 +40,20 @@ public class AddMemberController {
     private String generateUniqueIdCode() {
         String idCode;
         boolean isUnique;
+        Random random = new Random();
         do {
-            idCode = UUID.randomUUID().toString();
+            idCode = generateRandomIdCode(random);
             isUnique = isIdCodeUnique(idCode);
         } while (!isUnique);
         return idCode;
+    }
+
+    private String generateRandomIdCode(Random random) {
+        StringBuilder idCode = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            idCode.append(random.nextInt(10)); // Генерируем случайное число от 0 до 9
+        }
+        return idCode.toString();
     }
 
     private boolean isIdCodeUnique(String idCode) {

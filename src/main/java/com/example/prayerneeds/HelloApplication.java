@@ -4,7 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.InputStream;
 import java.sql.*;
 import java.io.IOException;
 
@@ -18,7 +22,16 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(HelloApplication.class.getResource("/com/example/prayerneeds/styles.css").toExternalForm());
-        
+        // Загрузка иконки из ресурсов
+
+        InputStream iconStream = HelloApplication.class.getResourceAsStream("/bird.png");
+        if (iconStream != null) {
+            Image icon = new Image(iconStream);
+            stage.getIcons().add(icon);
+            System.out.println("Icon loaded successfully!");
+        } else {
+            System.out.println("Icon not found!");
+        }
         stage.setTitle("Молитвенные нужды");
         stage.setScene(scene);
         stage.show();
