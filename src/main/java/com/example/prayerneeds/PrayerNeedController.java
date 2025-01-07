@@ -11,7 +11,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class PrayerNeedController {
@@ -28,6 +34,13 @@ public class PrayerNeedController {
 
     public void setData(List<Object[]> prayerNeeds) {
         VBox dynamicContent = new VBox(10);
+
+        // Добавляем кнопку для сохранения архивированных нужд в CSV файл
+        Button saveArchivedButton = new Button("Сохранить архивированные нужды в CSV");
+        saveArchivedButton.setStyle("-fx-padding: 10 20; -fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5;");
+        saveArchivedButton.setOnAction(event -> saveArchivedToCSV());
+
+        dynamicContent.getChildren().add(saveArchivedButton);
 
         for (Object[] needObj : prayerNeeds) {
             HBox needBox = new HBox(10);
@@ -118,6 +131,85 @@ public class PrayerNeedController {
     private void handleArchive(int id) {
         // Логика для архивирования нужды
         System.out.println("Архивирование нужды с ID: " + id);
-        // Добавьте здесь логику для архивирования нужды в базе данных
+
+        // SQL-запрос для обновления значения archived
+        String sql = "UPDATE prayer_need SET archived = 1 WHERE id = ?";
+
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println("Нужда успешно архивирована.");
+            } else {
+                System.out.println("Нужда с ID " + id + " не найдена.");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
+
+    private void saveArchivedToCSV() {
+        // SQL-запрос для получения всех строк с archived = 1
+        String sql = "SELECT id, id_code, title, description, time FROM prayer_need WHERE archived = 1";
+
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            // Используем BufferedWriter с указанием кодировки UTF-8 и BOM
+            try (BufferedWriter csvWriter = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream("archived_prayer_needs.csv", false), StandardCharsets.UTF_8))) {
+
+                // Добавляем BOM для UTF-8
+                csvWriter.write("\uFEFF");
+                csvWriter.write("ID,ID Code,Title,Description,Time\n");
+
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    int idCode = rs.getInt("id_code");
+                    String title = rs.getString("title");
+                    String description = rs.getString("description");
+                    String time = rs.getString("time");
+
+                    // Обработка специальных символов в строке (кавычки, запятые)
+                    title = escapeCsvField(title);
+                    description = escapeCsvField(description);
+                    time = escapeCsvField(time);
+
+                    csvWriter.write(String.valueOf(id) + ","
+                            + String.valueOf(idCode) + ","
+                            + title + ","
+                            + description + ","
+                            + time + "\n");
+                }
+
+                System.out.println("Архивированные нужды успешно сохранены в CSV файл.");
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace(); // Для отладки выводим полный стек-трейс ошибки
+            System.err.println("Ошибка сохранения архивированных нужд в CSV файл: " + e.getMessage());
+        }
+    }
+
+    // Метод для обработки полей перед записью в CSV-файл
+    private static String escapeCsvField(String field) {
+        if (field == null || field.isEmpty()) {
+            return "";
+        }
+
+        // Если поле содержит кавычку или запятую, экранируем их
+        String escapedField = field.replaceAll("\"", "\"\"");
+        if (escapedField.contains(",") || escapedField.contains("\"")) {
+            escapedField = "\"" + escapedField + "\"";
+        }
+
+        return escapedField;
+    }
+
+
+
+
 }
