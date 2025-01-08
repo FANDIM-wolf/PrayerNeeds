@@ -11,9 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,34 +27,32 @@ public class PrayerNeedController {
     @FXML
     public void initialize() {
         // Загрузка данных при инициализации контроллера
-        List<Object[]> prayerNeeds = DatabaseManager.getPrayerNeeds();
+        List<Object[]> prayerNeeds = DatabaseManager.getPrayerNeedsWithNames();
         setData(prayerNeeds);
     }
 
     public void setData(List<Object[]> prayerNeeds) {
         VBox dynamicContent = new VBox(10);
 
-        // Добавляем кнопку для сохранения архивированных нужд в CSV файл
-        Button saveArchivedButton = new Button("Сохранить архивированные нужды в CSV");
-        saveArchivedButton.setStyle("-fx-padding: 10 20; -fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5;");
-        saveArchivedButton.setOnAction(event -> saveArchivedToCSV());
 
-        dynamicContent.getChildren().add(saveArchivedButton);
+
+
 
         for (Object[] needObj : prayerNeeds) {
             HBox needBox = new HBox(10);
             needBox.setStyle("-fx-padding-right: 20; -fx-spacing: 20; -fx-alignment: CENTER;"); // Применяем стиль для центрирования
 
-            // Assuming needObj is an array with id, id_code, title, description, time, archived
+            // Assuming needObj is an array with id, id_code, title, description, time, archived, name
             int id = (int) needObj[0];
             int idCode = (int) needObj[1];
             String title = (String) needObj[2];
             String description = (String) needObj[3];
             String time = (String) needObj[4];
             int archived = (int) needObj[5];
+            String name = (String) needObj[6];
 
             // Combine all data into one string with spaces
-            String combinedText = title + " / " + time;
+            String combinedText = name + " - " + title + " / " + time;
 
             Label needLabel = new Label(combinedText);
             needLabel.setStyle("-fx-font-size: 14px; -fx-padding: 5px;"); // Применяем стиль напрямую
@@ -70,8 +67,9 @@ public class PrayerNeedController {
             final String finalDescription = description;
             final String finalTime = time;
             final int finalArchived = archived;
+            final String finalName = name;
 
-            viewButton.setOnAction(event -> handleViewNeed(finalId, finalIdCode, finalTitle, finalDescription, finalTime, finalArchived));
+            viewButton.setOnAction(event -> handleViewNeed(finalId, finalIdCode, finalTitle, finalDescription, finalTime, finalArchived, finalName));
 
             needBox.getChildren().addAll(needLabel, viewButton);
             dynamicContent.getChildren().add(needBox);
@@ -83,15 +81,15 @@ public class PrayerNeedController {
         needsContainer.getChildren().add(scrollPane);
     }
 
-    private void handleViewNeed(int id, int idCode, String title, String description, String time, int archived) {
+    private void handleViewNeed(int id, int idCode, String title, String description, String time, int archived, String name) {
         // Implement view functionality
-        System.out.println("View: ID = " + id + ", ID Code = " + idCode + ", Title = " + title + ", Description = " + description + ", Time = " + time + ", Archived = " + archived);
+        System.out.println("View: ID = " + id + ", ID Code = " + idCode + ", Title = " + title + ", Description = " + description + ", Time = " + time + ", Archived = " + archived + ", Name = " + name);
 
         // Открываем новое окно
-        openViewNeedWindow(id, idCode, title, description, time, archived);
+        openViewNeedWindow(id, idCode, title, description, time, archived, name);
     }
 
-    private void openViewNeedWindow(int id, int idCode, String title, String description, String time, int archived) {
+    private void openViewNeedWindow(int id, int idCode, String title, String description, String time, int archived, String name) {
         VBox root = new VBox(10);
         root.setAlignment(javafx.geometry.Pos.CENTER);
         root.setPadding(new javafx.geometry.Insets(20));
@@ -100,7 +98,7 @@ public class PrayerNeedController {
         headerLabel.setStyle("-fx-font-size: 20; -fx-font-family: Arial, sans-serif;");
 
         TextField nameInput = new TextField();
-        nameInput.setPromptText("Имя члена Церкви");
+        nameInput.setPromptText("Название нужды");
         nameInput.setText(title); // Заполняем поле данными
 
         TextArea descriptionArea = new TextArea();
@@ -112,6 +110,9 @@ public class PrayerNeedController {
         Label timeLabel = new Label("Время: " + time);
         timeLabel.setStyle("-fx-font-size: 14; -fx-font-family: Arial, sans-serif;");
 
+        Label nameLabel = new Label("ФИО: " + name);
+        timeLabel.setStyle("-fx-font-size: 14; -fx-font-family: Arial, sans-serif;");
+
         Button archiveButton = new Button("Архивировать");
         archiveButton.setOnAction(event -> handleArchive(id));
         archiveButton.setStyle("-fx-padding: 10 20;\n" +
@@ -119,7 +120,7 @@ public class PrayerNeedController {
                 "    -fx-text-fill: white;\n" +
                 "    -fx-font-size: 16px;\n" +
                 "    -fx-background-radius: 5;");
-        root.getChildren().addAll(headerLabel, nameInput, descriptionArea, timeLabel, archiveButton);
+        root.getChildren().addAll(headerLabel, nameInput, descriptionArea, timeLabel,nameLabel , archiveButton);
 
         Scene scene = new Scene(root, 400, 300);
         Stage stage = new Stage();
@@ -151,7 +152,7 @@ public class PrayerNeedController {
         }
     }
 
-    private void saveArchivedToCSV() {
+    public void saveArchivedToCSV() {
         // SQL-запрос для получения всех строк с archived = 1
         String sql = "SELECT id, id_code, title, description, time FROM prayer_need WHERE archived = 1";
 
@@ -159,13 +160,12 @@ public class PrayerNeedController {
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
-            // Используем BufferedWriter с указанием кодировки UTF-8 и BOM
+            // Используем BufferedWriter с указанием кодировки Windows-1251
             try (BufferedWriter csvWriter = new BufferedWriter(
-                    new OutputStreamWriter(new FileOutputStream("archived_prayer_needs.csv", false), StandardCharsets.UTF_8))) {
-
+                    new OutputStreamWriter(new FileOutputStream("archived_prayer_needs.csv", false), StandardCharsets.UTF_8)))  {
                 // Добавляем BOM для UTF-8
                 csvWriter.write("\uFEFF");
-                csvWriter.write("ID,ID Code,Title,Description,Time\n");
+                csvWriter.write("ID,ID Code,Title,Description,Time,Name\n");
 
                 while (rs.next()) {
                     int id = rs.getInt("id");
@@ -174,16 +174,21 @@ public class PrayerNeedController {
                     String description = rs.getString("description");
                     String time = rs.getString("time");
 
+                    // Получение имени члена церкви по id_code
+                    String name = getMemberNameByIdCode(conn, idCode);
+
                     // Обработка специальных символов в строке (кавычки, запятые)
                     title = escapeCsvField(title);
                     description = escapeCsvField(description);
                     time = escapeCsvField(time);
+                    name = escapeCsvField(name);
 
                     csvWriter.write(String.valueOf(id) + ","
                             + String.valueOf(idCode) + ","
                             + title + ","
                             + description + ","
-                            + time + "\n");
+                            + time + ","
+                            + name + "\n");
                 }
 
                 System.out.println("Архивированные нужды успешно сохранены в CSV файл.");
@@ -192,6 +197,20 @@ public class PrayerNeedController {
             e.printStackTrace(); // Для отладки выводим полный стек-трейс ошибки
             System.err.println("Ошибка сохранения архивированных нужд в CSV файл: " + e.getMessage());
         }
+    }
+
+    // Метод для получения имени члена церкви по id_code
+    private String getMemberNameByIdCode(Connection conn, int idCode) throws SQLException {
+        String sql = "SELECT name FROM member WHERE id_code = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCode);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
+        }
+        return ""; // Возвращаем пустую строку, если имя не найдено
     }
 
     // Метод для обработки полей перед записью в CSV-файл
@@ -208,8 +227,4 @@ public class PrayerNeedController {
 
         return escapedField;
     }
-
-
-
-
 }

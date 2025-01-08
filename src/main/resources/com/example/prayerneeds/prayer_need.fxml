@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.prayerneeds.PrayerNeedController"
@@ -13,6 +14,7 @@
     </stylesheets>
     <VBox alignment="CENTER">
         <Label text="Просмотр нужд" style="-fx-font-size: 20; -fx-font-family: Arial, sans-serif;"/>
+        <Button text="Архивировать нужды" onAction="#saveArchivedToCSV" styleClass="standart_red" />
     </VBox>
     <VBox fx:id="needsContainer" spacing="10" VBox.vgrow="ALWAYS">
     </VBox>

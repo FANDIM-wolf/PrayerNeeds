@@ -9,6 +9,11 @@
     -fx-font-weight: bold;
     -fx-fill: #333333;
 }
+.big_text {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-fill: #333333;
+}
 
 .standart_button {
     -fx-padding: 10 20;

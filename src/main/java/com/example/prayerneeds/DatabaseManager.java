@@ -94,6 +94,33 @@ public class DatabaseManager {
         }
         return prayerNeeds;
     }
+    public static List<Object[]> getPrayerNeedsWithNames() {
+        List<Object[]> prayerNeeds = new ArrayList<>();
+        String sql = "SELECT pn.id, pn.id_code, pn.title, pn.description, pn.time, pn.archived, m.name " +
+                "FROM prayer_need pn " +
+                "JOIN member m ON pn.id_code = m.id_code AND pn.archived =0";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                prayerNeeds.add(new Object[]{
+                        rs.getInt("id"),
+                        rs.getInt("id_code"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("time"),
+                        rs.getInt("archived"),
+                        rs.getString("name")
+                });
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return prayerNeeds;
+    }
 
 }
 

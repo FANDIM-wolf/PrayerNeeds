@@ -66,8 +66,26 @@ public class MemberListWindowController implements Initializable {
     private void handleRemoveMember() {
         // Логика для удаления члена церкви из списка
         System.out.println("Убрать из списка");
-    }
-}
+
+        // Создание нового окна с использованием FXML файла remove_member.fxml
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/prayerneeds/remove_member.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/example/prayerneeds/styles.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setTitle("Удаление члена церкви");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }}
 
 
 
