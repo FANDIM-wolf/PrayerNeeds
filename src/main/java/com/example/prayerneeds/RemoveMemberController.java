@@ -18,7 +18,7 @@ public class RemoveMemberController {
         if (idCode != null && !idCode.isEmpty()) {
             // Логика для удаления члена церкви по id_code
             System.out.println("Удаление члена церкви с id_code: " + idCode);
-
+            // Will be removed soon
             // Удаление связанных нужд
             //deletePrayerNeeds(idCode);
 
