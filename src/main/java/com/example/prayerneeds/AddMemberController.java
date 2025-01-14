@@ -73,15 +73,23 @@ public class AddMemberController {
     }
 
     private void addMemberToDatabase(String idCode, String name, String birthDate) {
-        String sql = "INSERT INTO member(id_code, name, birth_date) VALUES(?,?,?)";
-
+        // Вставка данных в таблицу member
+        String sqlMember = "INSERT INTO member (id_code, name, birth_date) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseManager.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, idCode);
-            pstmt.setString(2, name);
-            pstmt.setString(3, birthDate);
-            pstmt.executeUpdate();
-            System.out.println("Член церкви добавлен успешно.");
+             PreparedStatement pstmtMember = conn.prepareStatement(sqlMember)) {
+
+            pstmtMember.setString(1, idCode);
+            pstmtMember.setString(2, name);
+            pstmtMember.setString(3, birthDate);
+            pstmtMember.executeUpdate();
+
+            // Вставка данных в таблицу members_in_church
+            String sqlMembersInChurch = "INSERT INTO members_in_church (id_code, name) VALUES (?, ?)";
+            try (PreparedStatement pstmtMembersInChurch = conn.prepareStatement(sqlMembersInChurch)) {
+                pstmtMembersInChurch.setString(1, idCode);
+                pstmtMembersInChurch.setString(2, name);
+                pstmtMembersInChurch.executeUpdate();
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

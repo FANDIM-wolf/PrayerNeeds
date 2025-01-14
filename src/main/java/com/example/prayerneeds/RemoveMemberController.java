@@ -20,7 +20,7 @@ public class RemoveMemberController {
             System.out.println("Удаление члена церкви с id_code: " + idCode);
 
             // Удаление связанных нужд
-            deletePrayerNeeds(idCode);
+            //deletePrayerNeeds(idCode);
 
             // Удаление члена церкви
             deleteMember(idCode);
@@ -48,23 +48,18 @@ public class RemoveMemberController {
         }
     }
 
-    private void deleteMember(String idCode) {
-        String sql = "DELETE FROM member WHERE id_code = ?";
-
+    public void deleteMember(String idCode) {
+        // Обновление значения status_in_church в таблице members_in_church
+        String sqlMembersInChurch = "UPDATE members_in_church SET status_in_church = 0 WHERE id_code = ?";
         try (Connection conn = DatabaseManager.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmtMembersInChurch = conn.prepareStatement(sqlMembersInChurch)) {
 
-            pstmt.setString(1, idCode);
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                System.out.println("Член церкви успешно удален.");
-            } else {
-                System.out.println("Член церкви не найден.");
-            }
+            pstmtMembersInChurch.setString(1, idCode);
+            pstmtMembersInChurch.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
 }
 
