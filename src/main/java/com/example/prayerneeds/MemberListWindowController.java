@@ -57,7 +57,7 @@ public class MemberListWindowController implements Initializable {
         scene.getStylesheets().add(getClass().getResource("/com/example/prayerneeds/styles.css").toExternalForm());
 
         Stage stage = new Stage();
-        stage.setTitle("Добавить члена церкви");
+        stage.setTitle("Добавить члена общины");
         stage.setScene(scene);
         stage.show();
     }
@@ -76,7 +76,7 @@ public class MemberListWindowController implements Initializable {
             scene.getStylesheets().add(getClass().getResource("/com/example/prayerneeds/styles.css").toExternalForm());
 
             Stage stage = new Stage();
-            stage.setTitle("Удаление члена церкви");
+            stage.setTitle("Удаление члена общины");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

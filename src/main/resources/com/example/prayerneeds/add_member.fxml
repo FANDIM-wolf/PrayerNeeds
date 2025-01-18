@@ -27,7 +27,7 @@
             <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Дата рождения" />
             <DatePicker fx:id="birthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         </GridPane>
-        <Button text="Добавить члена церкви" onAction="#handleAddMember" styleClass="standart_green" GridPane.columnSpan="2" GridPane.rowIndex="2"/>
+        <Button text="Добавить члена общины" onAction="#handleAddMember" styleClass="standart_green" GridPane.columnSpan="2" GridPane.rowIndex="2"/>
     </children>
 </VBox>
 

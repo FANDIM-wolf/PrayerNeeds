@@ -64,11 +64,11 @@ public class AddNeedController {
             DatabaseManager.savePrayerNeed(memberIdCode, needName, needDescription, selectedDate, 0);
             System.out.println("Название нужды: " + needName);
             System.out.println("Описание нужды: " + needDescription);
-            System.out.println("Выбранный член церкви: " + selectedMember.getName());
-            System.out.println("ID код члена церкви: " + memberIdCode);
+            System.out.println("Выбранный член общины: " + selectedMember.getName());
+            System.out.println("ID код члена общины: " + memberIdCode);
             System.out.println("Выбранная дата: " + selectedDate);
         } else {
-            System.out.println("Член церкви не выбран.");
+            System.out.println("Член общины не выбран.");
         }
     }
 }

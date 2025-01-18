@@ -110,7 +110,7 @@ public class PrayerNeedController {
         headerLabel.setStyle("-fx-font-size: 20; -fx-font-family: Arial, sans-serif;");
 
         TextField nameInput = new TextField();
-        nameInput.setPromptText("Имя члена Церкви");
+        nameInput.setPromptText("Имя члена общины");
         nameInput.setText(name); // Заполняем поле данными
 
         TextArea descriptionArea = new TextArea();

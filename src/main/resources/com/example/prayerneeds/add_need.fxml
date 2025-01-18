@@ -21,7 +21,7 @@
                 <TextField fx:id="needNameField" promptText="Введите название нужды" />
                 <Label text="Описание нужды:" />
                 <TextArea fx:id="needDescriptionField" promptText="Введите описание нужды" />
-                <Label text="Выбрать члена церкви:" />
+                <Label text="Выбрать члена общины:" />
                 <ChoiceBox fx:id="memberChoiceBox" />
                 <Label text="Выбрать дату:" />
                 <DatePicker fx:id="datePicker" />

@@ -12,7 +12,7 @@ public class ViewNeedController {
     private void handleArchive() {
         // Логика для архивирования нужды
         String memberName = nameInput.getText();
-        System.out.println("Архивирование нужды для члена церкви: " + memberName);
+        System.out.println("Архивирование нужды для члена общины: " + memberName);
         // Добавьте здесь логику для архивирования нужды в базе данных
     }
 }

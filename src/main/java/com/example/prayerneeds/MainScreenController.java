@@ -91,7 +91,7 @@ public class MainScreenController {
         } else {
             System.out.println("Icon not found!");
         }
-        stage.setTitle("Члены церкви");
+        stage.setTitle("Члены общины");
         stage.setScene(scene);
         stage.show();
     }

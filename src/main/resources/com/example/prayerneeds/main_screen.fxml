@@ -9,7 +9,7 @@
     <Text text="Молитвенные нужды" styleClass="title"/>
     <Button text="Записать нужду" onAction="#handleRecordNeed" styleClass="standart_button"/>
     <Button text="Просмотр нужд" onAction="#handleViewNeeds" styleClass="standart_button"/>
-    <Button text="Члены церкви" onAction="#handleViewMembers" styleClass="standart_button"/>
+    <Button text="Члены общины" onAction="#handleViewMembers" styleClass="standart_button"/>
 </VBox>
 
 

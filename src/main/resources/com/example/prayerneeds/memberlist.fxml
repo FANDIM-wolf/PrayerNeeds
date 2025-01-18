@@ -9,12 +9,12 @@
 
 <?import javafx.scene.layout.HBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="40.0" styleClass="members-list" fx:controller="com.example.prayerneeds.MemberListWindowController">
-    <Text text="Члены церкви" styleClass="title"/>
+    <Text text="Члены общины" styleClass="title"/>
     <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true">
         <TextArea fx:id="membersTextArea" editable="false" wrapText="true"/>
     </ScrollPane>
     <HBox  alignment="CENTER_RIGHT" styleClass="HBox_member_list_buttons">
-        <Button text="Добавить члена церкви" onAction="#handleAddMember" styleClass="standart_green"/>
-        <Button text="Убрать из списка" onAction="#handleRemoveMember" styleClass="standart_red"/>
+        <Button text="Добавить члена общины" onAction="#handleAddMember" styleClass="standart_green"/>
+        <Button text="Убрать из общины" onAction="#handleRemoveMember" styleClass="standart_red"/>
     </HBox>
 </VBox>

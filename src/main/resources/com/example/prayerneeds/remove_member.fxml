@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.prayerneeds.RemoveMemberController">
 <VBox alignment="CENTER" spacing="10"  layoutX="20.0" layoutY="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-    <Label text="Удалить члена церкви:" styleClass="title"/>
-    <Label text="Введите члена церкви:" styleClass="big_text"/>
+    <Label text="Удалить члена общины:" styleClass="title"/>
+    <Label text="Введите члена общины:" styleClass="big_text"/>
     <TextField fx:id="idCodeField" promptText="Введите id_code"/>
-    <Button text="Удалить члена церкви" onAction="#handleRemoveMember" styleClass="standart_red"/>
+    <Button text="Удалить члена общины" onAction="#handleRemoveMember" styleClass="standart_red"/>
 </VBox>
 </AnchorPane>
